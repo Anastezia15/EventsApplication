@@ -40,6 +40,7 @@ public class EventService {
     public Event getEventById(Long id) {
         return eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
     }
+
     public Event getEventByTitle(String title) {
         return eventRepository.findByTitle(title).orElseThrow(() -> new EventNotFoundException(title));
     }
@@ -56,37 +57,33 @@ public class EventService {
 
         return savedEvent;
     }
-    public Event getEventByUser(User user){
+
+    public Event getEventByUser(User user) {
         return eventRepository.findByCreatorId(user.getId()).orElseThrow(() -> new EventNotFoundException(user.getId(), 1L));
     }
-
 
     public Event createEvent(EventCreateDto eventCreateDto) {
         Event createdEvent = eventCreateDtoAdapter.fromDto(eventCreateDto);
 
-        for (Event event:getAll()) {
+        for (Event event : getAll()) {
             if (eventCreateDto.equals(eventCreateDtoAdapter.toDto(event))) throw new AlreadyExistsException("Such " +
                     "event already exists.");
         }
-
-        CategoryService categoryService = new CategoryService(categoryRepository, eventRepository);
-        categoryService.getCategoryById(categoryRepository.findByName(eventCreateDto.getCategory()).get().getId()).getEvents().add(createdEvent);
-
-
+        createdEvent.setCategory(categoryRepository.findByName(eventCreateDto.getCategory()).orElse(null));
         return eventRepository.save(createdEvent);
     }
 
     public Event updateEvent(Long eventId, EventUpdateDto eventUpdateDto) {
         Event updatedEvent = eventUpdateDtoAdapter.updateEventFromDto(getEventById(eventId), eventUpdateDto);
-
         return saveEvent(updatedEvent);
     }
 
-    public Set<User> getAllSubscribers(Long eventId){
+    public Set<User> getAllSubscribers(Long eventId) {
         return getEventById(eventId).getUserSubscriptionList();
     }
-    public Set<Event> getAllSubscriptionsOnEvents(Long userId){
-        return userService.getUserById(userId).getEventSubscriptionList();
+
+    public Set<Event> getAllSubscriptionsOnEvents(Long userId) {
+        return userService.getUserById(userId).getUserEvents();
     }
 
     public void delete(Long id) {

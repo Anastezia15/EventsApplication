@@ -3,6 +3,7 @@ package com.diplom.diplom_work.model.dto;
 import com.diplom.diplom_work.model.Role;
 import com.diplom.diplom_work.model.User;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size;
 import java.sql.Date;
 
 @Data
+@RequiredArgsConstructor
 public class UserDto {
 
     @Size(min = 3, message = "Username must be at least 3 characters")
@@ -39,7 +41,7 @@ public class UserDto {
     private Role role;
 
     public UserDto(User user) {
-        this.username= user.getUsername();
+        this.username = user.getUsername();
         this.password = user.getPassword();
         this.email = user.getEmail();
         this.firstName = user.getFirstName();

@@ -17,7 +17,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="event")
+@Table(name = "event")
 public class Event {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,12 +57,7 @@ public class Event {
     @NotNull
     private Category category;
 
-
-    @ManyToMany
-    @JoinTable(
-            name = "event_user_subscription",
-            joinColumns = {@JoinColumn(name = "event_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")})
     @JsonIgnore
+    @ManyToMany(mappedBy = "userEvents")
     private Set<User> userSubscriptionList;
 }

@@ -10,9 +10,6 @@ import com.diplom.diplom_work.model.dto.CategoryDto;
 import com.diplom.diplom_work.repository.CategoryRepository;
 import com.diplom.diplom_work.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -34,18 +31,12 @@ public class CategoryService {
         return categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
     }
 
-    public Category getWithEvents(Long id, int page, int size, boolean upcoming) {
+    public Category getWithEvents(Long id) {
         Category category = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
-        Pageable pageable = PageRequest.of(page, size);
-
-        Page<Event> eventsPage = upcoming ? eventRepository.findUpcomingEventsByCategory(category, pageable) :
-                eventRepository.findByCategory(category, pageable);
-
-        category.setEvents(new HashSet<>(eventsPage.getContent()));
-
+        List<Event> eventsList = eventRepository.findEventsByCategoryName(category.getName());
+        category.setEvents(new HashSet<>(eventsList));
         return category;
     }
-
 
     public Category getCategoryByName(String name) {
         return categoryRepository.findByName(name)
@@ -76,7 +67,6 @@ public class CategoryService {
                 checkNameUpdate(categoryFromDb.getName(), categoryDto.getName())) {
             categoryFromDb.setName(categoryDto.getName());
         }
-
         return saveCategory(categoryFromDb);
     }
 

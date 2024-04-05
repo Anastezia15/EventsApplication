@@ -3,6 +3,7 @@ package com.diplom.diplom_work.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -11,15 +12,15 @@ import java.sql.Date;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Data
+@Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class User {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @Basic
@@ -71,7 +72,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "event_id")})
     @JsonIgnore
-    private Set<Event> eventSubscriptionList;
+    private Set<Event> userEvents;
 
 }
 

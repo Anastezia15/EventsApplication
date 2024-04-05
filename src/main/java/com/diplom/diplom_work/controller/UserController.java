@@ -1,12 +1,14 @@
 package com.diplom.diplom_work.controller;
 
 import com.diplom.diplom_work.model.User;
+import com.diplom.diplom_work.model.dto.UserDto;
 import com.diplom.diplom_work.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,9 +26,34 @@ public class UserController {
         User createdUser = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
+
     @GetMapping("/admin")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> usersListDto = userService.getAllUsers();
         return ResponseEntity.ok(usersListDto);
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable("username") String username) {
+        User user = userService.getUser(username);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/admin/id/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
+        UserDto userDto = new UserDto(userService.getUserById(id));
+        return ResponseEntity.ok(userDto);
+    }
+
+    @PatchMapping("user/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
+        User user = userService.updateUser(id, userDto);
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.ok().build();
     }
 }
