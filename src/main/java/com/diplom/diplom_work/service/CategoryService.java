@@ -12,7 +12,6 @@ import com.diplom.diplom_work.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -31,11 +30,9 @@ public class CategoryService {
         return categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
     }
 
-    public Category getWithEvents(Long id) {
+    public List<Event> getWithEvents(Long id) {
         Category category = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
-        List<Event> eventsList = eventRepository.findEventsByCategoryName(category.getName());
-        category.setEvents(new HashSet<>(eventsList));
-        return category;
+        return eventRepository.findEventsByCategoryName(category.getName());
     }
 
     public Category getCategoryByName(String name) {

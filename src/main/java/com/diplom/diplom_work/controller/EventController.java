@@ -11,13 +11,19 @@ import com.diplom.diplom_work.service.EventService;
 import com.diplom.diplom_work.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/events")
@@ -39,7 +45,7 @@ public class EventController {
     @GetMapping("/creatorId/{creatorId}")
     public ResponseEntity<List<Event>> getEventByCreatorId(@PathVariable Long creatorId) {
         List<Event> events = eventService.getAll().stream().filter(event -> event.getCreatorId().equals(creatorId))
-                .collect(Collectors.toList());
+                .toList();
         return ResponseEntity.ok(events);
     }
 
@@ -71,11 +77,9 @@ public class EventController {
     public ResponseEntity<String> setSubscription(@PathVariable Long eventId, @PathVariable Long userId) {
         Event event = eventService.getEventById(eventId);
         User user = userService.getUserById(userId);
-        event.getUserSubscriptionList().add(user);
-        user.getUserEvents().add(event);
+        event.addUserToList(user);
 
         eventRepository.save(event);
-        userRepository.save(user);
 
         return ResponseEntity.ok("Subscription accomplished successfully");
     }
@@ -98,7 +102,6 @@ public class EventController {
         User user = userService.getUserById(userId);
 
         event.getUserSubscriptionList().remove(user);
-        user.getUserEvents().remove(event);
 
         eventRepository.save(event);
         userRepository.save(user);

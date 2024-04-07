@@ -1,15 +1,25 @@
 package com.diplom.diplom_work.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.persistence.Basic;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.sql.Date;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -65,14 +75,6 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role")
     private Role role;
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_event_subscription",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "event_id")})
-    @JsonIgnore
-    private Set<Event> userEvents;
 
 }
 

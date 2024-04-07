@@ -1,12 +1,19 @@
 package com.diplom.diplom_work.controller;
 
 import com.diplom.diplom_work.model.Category;
+import com.diplom.diplom_work.model.Event;
 import com.diplom.diplom_work.model.dto.CategoryDto;
-import com.diplom.diplom_work.model.dto.CategoryWithEventsDto;
 import com.diplom.diplom_work.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -33,10 +40,9 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}/events")
-    public ResponseEntity<CategoryWithEventsDto> getCategoryEvents(
+    public ResponseEntity<List<Event>> getCategoryEvents(
             @PathVariable Long id) {
-        Category category = categoryService.getWithEvents(id);
-        return ResponseEntity.ok(new CategoryWithEventsDto(category));
+        return ResponseEntity.ok(categoryService.getWithEvents(id));
     }
 
     @PostMapping("/admin")

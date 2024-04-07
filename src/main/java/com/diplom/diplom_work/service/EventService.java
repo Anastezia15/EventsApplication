@@ -15,6 +15,7 @@ import com.diplom.diplom_work.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -79,11 +80,27 @@ public class EventService {
     }
 
     public Set<User> getAllSubscribers(Long eventId) {
-        return getEventById(eventId).getUserSubscriptionList();
+        Set<User> users = new HashSet<>();
+        Set<Long> userIdSet = getEventById(eventId).getUserSubscriptionList();
+
+        for (Long i : userIdSet){
+            users.add(userService.getUserById(i));
+        }
+
+        return users;
     }
 
     public Set<Event> getAllSubscriptionsOnEvents(Long userId) {
-        return userService.getUserById(userId).getUserEvents();
+        List<Event> event = getAll();
+        Set<Event> userEvents = new HashSet<>();
+
+        for (Event i : event){
+            if (i.getUserSubscriptionList().contains(userService.getUserById(userId))){
+                userEvents.add(i);
+            }
+        }
+
+        return userEvents;
     }
 
     public void delete(Long id) {
