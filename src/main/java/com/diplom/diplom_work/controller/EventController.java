@@ -77,7 +77,7 @@ public class EventController {
     public ResponseEntity<String> setSubscription(@PathVariable Long eventId, @PathVariable Long userId) {
         Event event = eventService.getEventById(eventId);
         User user = userService.getUserById(userId);
-        event.addUserToList(user);
+        //event.addUserToList(user);
 
         eventRepository.save(event);
 
@@ -101,7 +101,7 @@ public class EventController {
         Event event = eventService.getEventById(eventId);
         User user = userService.getUserById(userId);
 
-        event.getUserSubscriptionList().remove(user);
+      //  event.getUserSubscriptionList().remove(user);
 
         eventRepository.save(event);
         userRepository.save(user);

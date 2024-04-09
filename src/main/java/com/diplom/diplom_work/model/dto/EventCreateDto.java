@@ -1,5 +1,6 @@
 package com.diplom.diplom_work.model.dto;
 
+import com.diplom.diplom_work.model.Event;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,20 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 public class EventCreateDto {
+
+    private long id;
+
+    public EventCreateDto(Event event) {
+        this.id = event.getId();
+        this.creatorId = event.getCreatorId();
+        this.title = event.getTitle();
+        this.description = event.getDescription();
+        this.imageUrl = event.getImageUrl();
+        this.location = event.getLocation();
+        this.date = event.getDate();
+        this.time = event.getTime();
+        this.category = event.getCategory().getName();
+    }
 
     @NotNull
     private Long creatorId;

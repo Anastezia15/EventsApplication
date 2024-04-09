@@ -79,28 +79,11 @@ public class EventService {
         return saveEvent(updatedEvent);
     }
 
-    public Set<User> getAllSubscribers(Long eventId) {
-        Set<User> users = new HashSet<>();
-        Set<Long> userIdSet = getEventById(eventId).getUserSubscriptionList();
-
-        for (Long i : userIdSet){
-            users.add(userService.getUserById(i));
-        }
-
-        return users;
+    public Set<User> getAllSubscribers(Long eventId){
+        return getEventById(eventId).getUsers();
     }
-
-    public Set<Event> getAllSubscriptionsOnEvents(Long userId) {
-        List<Event> event = getAll();
-        Set<Event> userEvents = new HashSet<>();
-
-        for (Event i : event){
-            if (i.getUserSubscriptionList().contains(userService.getUserById(userId))){
-                userEvents.add(i);
-            }
-        }
-
-        return userEvents;
+    public Set<Event> getAllSubscriptionsOnEvents(Long userId){
+        return userService.getUserById(userId).getEvents();
     }
 
     public void delete(Long id) {

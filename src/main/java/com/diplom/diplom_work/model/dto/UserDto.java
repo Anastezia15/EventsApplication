@@ -15,6 +15,8 @@ import java.sql.Date;
 @RequiredArgsConstructor
 public class UserDto {
 
+    private long id;
+
     @Size(min = 3, message = "Username must be at least 3 characters")
     @Size(max = 50, message = "Username must be no more than 50 characters")
     private String username;
@@ -41,6 +43,7 @@ public class UserDto {
     private Role role;
 
     public UserDto(User user) {
+        this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.email = user.getEmail();

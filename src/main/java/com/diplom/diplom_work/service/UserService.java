@@ -2,10 +2,12 @@ package com.diplom.diplom_work.service;
 
 import com.diplom.diplom_work.exceptions.AlreadyExistsException;
 import com.diplom.diplom_work.exceptions.UserNotFoundException;
+import com.diplom.diplom_work.model.Event;
 import com.diplom.diplom_work.model.Role;
 import com.diplom.diplom_work.model.User;
 import com.diplom.diplom_work.model.dto.UserDto;
 import com.diplom.diplom_work.model.dto.adapter.UserUpdateDtoAdapter;
+import com.diplom.diplom_work.repository.EventRepository;
 import com.diplom.diplom_work.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.List;
 public class UserService implements ServiceUpdateValidation {
     private final UserRepository userRepository;
     private final UserUpdateDtoAdapter userUpdateDtoAdapter;
+    private final EventRepository eventRepository;
 
     User userFromDb;
 
@@ -33,6 +36,14 @@ public class UserService implements ServiceUpdateValidation {
     public User getUser(String username) {
 
         return userRepository.findByUsername(username);
+    }
+    public void subscribeUserToEvent(Long userId, Long eventId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found"));
+
+       user.addEvent(event);
+
+        userRepository.save(user);
     }
 
     public User updateUser(Long userId, UserDto userDto) {

@@ -28,7 +28,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User createdUser = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
@@ -62,5 +62,10 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok().build();
+    }
+    @PostMapping("/subscribe/{userId}/{eventId}")
+    public ResponseEntity<String> subscribeUserToEvent(@PathVariable Long userId, @PathVariable Long eventId) {
+        userService.subscribeUserToEvent(userId, eventId);
+        return ResponseEntity.ok("User subscribed to event successfully");
     }
 }
