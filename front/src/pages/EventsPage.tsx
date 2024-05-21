@@ -17,6 +17,8 @@ const EventsPage = () => {
       <div className="grid grid-cols-3 gap-4 pb-[25px]">
         {evets.map((value, index) => (
           <Event
+          creatorId={value.creatorId}
+
             id={index}
             title={value.title}
             imageUrl={value.imageUrl}

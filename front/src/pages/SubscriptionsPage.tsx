@@ -10,7 +10,7 @@ const SubscriptionsPage = () => {
   const user = useSelector((state: RootState) => state.user);
   const events = useSelector((state: RootState) => state.event);
   useEffect(() => {
-    getSubs({ userId: user.id });
+    getSubs({ userId: user.id - 1 });
   }, []);
 
   return (
@@ -21,6 +21,7 @@ const SubscriptionsPage = () => {
       <div className="grid grid-cols-3 gap-4 pb-[25px]">
         {events.map((value, index) => (
           <Event
+            creatorId={value.creatorId}
             id={index}
             title={value.title}
             imageUrl={value.imageUrl}

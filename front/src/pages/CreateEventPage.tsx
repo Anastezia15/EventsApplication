@@ -10,11 +10,14 @@ import { useState } from "react";
 import { formatDateTime, getCurrentDateTime } from "../utils/formatDate";
 import { useCreateUserMutation } from "../store/createEvent";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/reducers/rootReducer";
 
 const CreateEventPage = () => {
   const [createEvent] = useCreateUserMutation();
   const navigate = useNavigate();
   const defaltDate = getCurrentDateTime();
+  const user = useSelector((state: RootState) => state.user);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -130,7 +133,11 @@ const CreateEventPage = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    createEvent(formData);
+    const data = {
+      ...formData,
+      creatorId: user.id,
+    };
+    createEvent(data);
     navigate("/");
   };
   return (

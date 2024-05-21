@@ -8,9 +8,9 @@ export const getMyEventsApi = createApi({
     baseUrl: "http://localhost:8077",
   }),
   endpoints: (builder) => ({
-    createUser: builder.mutation<IEvent[], Partial<string>>({
+    createUser: builder.mutation<IEvent[], Partial<{ userId: string }>>({
       query: (id) => ({
-        url: `/events/creatorId/${id}`,
+        url: `/events/creatorId/${id.userId}`,
         method: "GET",
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -23,3 +23,4 @@ export const getMyEventsApi = createApi({
   }),
 });
 export const { useCreateUserMutation } = getMyEventsApi;
+

@@ -11,6 +11,7 @@ const eventSlice = createSlice({
     setEvent: (state, action: PayloadAction<IEvent[]>) => {
       return action.payload;
     },
+    
   },
 });
 
