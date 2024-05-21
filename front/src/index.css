@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.bg {
+    background: url('./image/bg.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.bg2{
+    background: url('./image/bg2.jpg');
+    background-size: cover;
+    background-position: center;
+}

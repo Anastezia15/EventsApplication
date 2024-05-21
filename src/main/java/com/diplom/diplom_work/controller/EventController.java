@@ -11,6 +11,7 @@ import com.diplom.diplom_work.service.EventService;
 import com.diplom.diplom_work.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,6 +28,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/events")
+@CrossOrigin
 @RequiredArgsConstructor
 public class EventController {
 
