@@ -11,7 +11,7 @@ interface ICreateIvent {
   category: string;
 }
 export const createEventApi = createApi({
-  reducerPath: "createUserApi",
+  reducerPath: "createEventApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8077",
   }),
@@ -25,4 +25,4 @@ export const createEventApi = createApi({
     }),
   }),
 });
-export const { useCreateUserMutation } = createEventApi;
+export const { useCreateUserMutation  } = createEventApi;

@@ -17,7 +17,7 @@ const CreateEventPage = () => {
   const [createEvent] = useCreateUserMutation();
   const navigate = useNavigate();
   const defaltDate = getCurrentDateTime();
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state).user;
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -137,6 +137,8 @@ const CreateEventPage = () => {
       ...formData,
       creatorId: user.id,
     };
+   
+    
     createEvent(data);
     navigate("/");
   };
