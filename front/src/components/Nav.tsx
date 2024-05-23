@@ -1,5 +1,5 @@
 import { DarkThemeToggle, Navbar } from "flowbite-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 const Nav = ({
@@ -12,7 +12,6 @@ const Nav = ({
   const setLink = (index: number) => {
     setActiveLink(index);
   };
-
   return (
     <Navbar fluid rounded>
       <Navbar.Brand>

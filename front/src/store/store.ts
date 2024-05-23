@@ -9,6 +9,7 @@ import eventReducer from "./reducers/event.reducer";
 import { getMyEventsApi } from "./MyEvents";
 import { setSub } from "./Subscribe";
 import { getSub } from "./getSubs";
+import { createEventApi } from "./createEvent";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     [getEventsApi.reducerPath]: getEventsApi.reducer,
     [getMyEventsApi.reducerPath]: getMyEventsApi.reducer,
+    [createEventApi.reducerPath]: createEventApi.reducer,
     [setSub.reducerPath]: setSub.reducer,
     [getSub.reducerPath]: getSub.reducer,
     user: userReducer,
@@ -26,6 +28,7 @@ const store = configureStore({
       createUserApi.middleware,
       userApi.middleware,
       getEventsApi.middleware,
+      createEventApi.middleware,
       getMyEventsApi.middleware,
       setSub.middleware,
       getSub.middleware,

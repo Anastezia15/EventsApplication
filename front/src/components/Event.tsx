@@ -27,13 +27,14 @@ const Event = ({
   location,
   category,
   time,
+  creatorId,
 }: IEvent) => {
   const [setSub] = useCreateUserMutation();
   const user = useSelector((state: RootState) => state.user);
   const handleClick = () => {
     setSub({ eventId: `${id + 1}`, userId: user.id });
   };
-  
+
   return (
     <Card>
       <div>
@@ -41,7 +42,7 @@ const Event = ({
       </div>
       <div className="flex w-full justify-center">
         <img
-          className="w-[180px] rounded border max-h-[150px] border-[#e5e7eb] dark:border-[#374151]"
+          className="max-h-[150px] w-[180px] rounded border border-[#e5e7eb] dark:border-[#374151]"
           src={imageUrl}
           alt="image"
         />
@@ -60,7 +61,7 @@ const Event = ({
           Category: {category.name}
         </h2>
       </div>
-      <Button onClick={handleClick}>Subscribe by Category</Button>
+      <Button onClick={handleClick}>Subscribe </Button>
     </Card>
   );
 };

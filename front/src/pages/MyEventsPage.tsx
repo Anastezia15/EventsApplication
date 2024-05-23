@@ -11,9 +11,9 @@ const SubscriptionsPage = () => {
 
   const events = useSelector((state: RootState) => state.event);
   useEffect(() => {
-    console.log(user.id);
-
-    getMyEvents({ userId: user.id - 1 });
+    console.log(user);
+    
+    getMyEvents({ userId: user.id });
   }, []);
 
   return (
