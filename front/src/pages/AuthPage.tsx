@@ -1,7 +1,6 @@
 import { Card, DarkThemeToggle, Navbar } from "flowbite-react";
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import bgIcon from "../image/bg.svg";
 
 const AuthPage = () => {
   const [activeLink, setActiveLink] = useState(0);

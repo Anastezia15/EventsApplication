@@ -1,18 +1,20 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useCreateUserMutation } from "../store/getSubs";
-import { RootState } from "../store/reducers/rootReducer";
 import Event from "../components/Event";
+import { useAllSubsStore } from "../store/allSubs.store";
+import { useUserStore } from "../store/user.store";
+import { getRequest } from "../api";
 
 const SubscriptionsPage = () => {
-  const [getSubs] = useCreateUserMutation();
-
-  const user = useSelector((state: RootState) => state.user);
-  const events = useSelector((state: RootState) => state.event);
+  const { allSubs, setSubEvents } = useAllSubsStore();
+  const { user } = useUserStore();
+  const init = async () => {
+    const getData = await getRequest({
+      url: `/events/user_subscriptions/${user.id}`,
+    });
+    setSubEvents(getData);
+  };
   useEffect(() => {
-    console.log(user);
-    
-    getSubs({ userId: user.id });
+    init()
   }, []);
 
   return (
@@ -21,9 +23,9 @@ const SubscriptionsPage = () => {
         Subscriptions
       </h1>
       <div className="grid grid-cols-3 gap-4 pb-[25px]">
-        {events.map((value, index) => (
+        {allSubs.map((value, index) => (
           <Event
-          key={index}
+            key={index}
             creatorId={value.creatorId}
             id={index}
             title={value.title}
