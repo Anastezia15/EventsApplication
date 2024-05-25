@@ -14,8 +14,9 @@ import EventsPage from "./pages/EventsPage.tsx";
 import SubscriptionsPage from "./pages/SubscriptionsPage.tsx";
 import MyEventsPage from "./pages/MyEventsPage.tsx";
 import CreateEventPage from "./pages/CreateEventPage.tsx";
-import { Provider } from "react-redux";
-import store from "./store/store.ts";
+import AllUsersPage from "./pages/AllUsersPage.tsx";
+import EditUser from "./components/EditUser.tsx";
+import CreateCategory from "./pages/CreateCategory.tsx";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,18 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <EventsPage />,
+      },
+      {
+        path: "users",
+        element: <AllUsersPage />,
+      },
+      {
+        path: "catigories",
+        element: <CreateCategory />,
+      },
+      {
+        path: "users/:username",
+        element: <EditUser />,
       },
       {
         path: "subscriptions",
@@ -58,8 +71,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Provider store={store}>
       <RouterProvider router={router} />
-    </Provider>
   </React.StrictMode>,
 );

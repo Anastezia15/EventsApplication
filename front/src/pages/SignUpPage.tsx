@@ -1,12 +1,13 @@
 import { Button, Card, Datepicker, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Form, useNavigate } from "react-router-dom";
-import { useCreateUserMutation } from "../store/createUser";
 import { formatDateTime } from "../utils/formatDate";
+import { postRequest } from "../api";
+import { useUserStore } from "../store/user.store";
 
 const SignUpPage = () => {
-  const [createUser] = useCreateUserMutation();
   const navigate = useNavigate();
+  const {setUser} = useUserStore()
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -32,9 +33,14 @@ const SignUpPage = () => {
   };
 
   const onSubmit = async () => {
-   await createUser(formData);
+    try {
+    const postData = await postRequest({ url: "/users/create", body: formData });
+    setUser(postData)
+    
+    } catch (error) {
+        console.log(error);
+    }
    navigate("/");
-
   };
   return (
     <div className="w-[25%]">

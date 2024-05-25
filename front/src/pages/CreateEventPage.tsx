@@ -6,18 +6,18 @@ import {
   Select,
   TextInput,
 } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { formatDateTime, getCurrentDateTime } from "../utils/formatDate";
-import { useCreateUserMutation } from "../store/createEvent";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/reducers/rootReducer";
+import { useUserStore } from "../store/user.store";
+import { useAllEventsStore } from "../store/allEvents.store";
+import { getRequest, postRequest } from "../api";
 
 const CreateEventPage = () => {
-  const [createEvent] = useCreateUserMutation();
   const navigate = useNavigate();
+  const { user } = useUserStore();
+  const [options, setOptions] = useState<{ name: string }[]>([]);
   const defaltDate = getCurrentDateTime();
-  const user = useSelector((state: RootState) => state).user;
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -137,11 +137,16 @@ const CreateEventPage = () => {
       ...formData,
       creatorId: user.id,
     };
-   
-    
-    createEvent(data);
+    await postRequest({ url: "/events", body: data });
     navigate("/");
   };
+  const init = async () => {
+    const option = await getRequest({ url: "/categories" });
+    setOptions(option);
+  };
+  useEffect(() => {
+    init();
+  }, []);
   return (
     <div className="flex h-full w-full flex-col  items-center justify-start gap-[25px]">
       <h1 className=" text-center text-[25px] dark:text-white">Create Event</h1>
@@ -190,8 +195,8 @@ const CreateEventPage = () => {
                   id={value.id}
                   required
                 >
-                  {value.options &&
-                    value?.options.map((option) => <option>{option}</option>)}
+                  {options.length != 0 &&
+                    options.map((option) => <option>{option?.name}</option>)}
                 </Select>
               )}
             </div>

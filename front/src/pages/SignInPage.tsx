@@ -1,11 +1,12 @@
 import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Form, useNavigate } from "react-router-dom";
-import { useCreateUserMutation } from "../store/getUser";
+import { getRequest } from "../api";
+import { useUserStore } from "../store/user.store";
 const SignInPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [createUser] = useCreateUserMutation();
+  const { setUser } = useUserStore();
   const navigate = useNavigate();
   const handleChange = (
     setValue: React.Dispatch<React.SetStateAction<string>>,
@@ -18,8 +19,14 @@ const SignInPage = () => {
   const onSubbmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    await createUser(username);
-    navigate("/");
+    try {
+      const getData = await getRequest({ url: `/users/${username}` });
+      setUser(getData);
+      navigate("/");
+    } catch (error) {
+        console.log(error);
+    }
+  
   };
   return (
     <div className="w-[25%]">

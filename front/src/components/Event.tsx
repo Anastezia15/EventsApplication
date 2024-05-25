@@ -1,7 +1,6 @@
 import { Button, Card } from "flowbite-react";
-import { useCreateUserMutation } from "../store/Subscribe";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/reducers/rootReducer";
+import { useUserStore } from "../store/user.store";
+import { postRequest } from "../api";
 
 export interface IEvent {
   id: number;
@@ -29,10 +28,11 @@ const Event = ({
   time,
   creatorId,
 }: IEvent) => {
-  const [setSub] = useCreateUserMutation();
-  const user = useSelector((state: RootState) => state.user);
-  const handleClick = () => {
-    setSub({ eventId: `${id + 1}`, userId: user.id });
+  const { user } = useUserStore();
+  const handleClick = async () => {
+    await postRequest({
+      url: `/users/subscribe/${creatorId}/${id + 1}`,
+    });
   };
 
   return (
@@ -61,7 +61,9 @@ const Event = ({
           Category: {category.name}
         </h2>
       </div>
-      <Button onClick={handleClick}>Subscribe </Button>
+      {user.role === "ROLE_USER" && (
+        <Button onClick={handleClick}>Subscribe </Button>
+      )}
     </Card>
   );
 };
