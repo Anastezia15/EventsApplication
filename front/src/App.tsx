@@ -10,13 +10,13 @@ function App() {
   const navigate = useNavigate()
   const { user } = useUserStore();
   useEffect(() => {
-    if (user) {
+    // if (user) {
       
 
-    }
-    else{
-      navigate('/auth/signin')
-    }
+    // }
+    // else{
+    //   navigate('/auth/signin')
+    // }
   }, []);
 
   return (
