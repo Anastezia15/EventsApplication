@@ -103,7 +103,8 @@ public class EventController {
         Event event = eventService.getEventById(eventId);
         User user = userService.getUserById(userId);
 
-      //  event.getUserSubscriptionList().remove(user);
+       event.getUsers().remove(user);
+       user.getEvents().remove(event);
 
         eventRepository.save(event);
         userRepository.save(user);

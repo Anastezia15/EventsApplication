@@ -77,7 +77,4 @@ public class Event {
         return getClass().hashCode();
     }
 
-//    public void addUserToList(User user){
-//        userSubscriptionList.add(user.getId());
-//    }
 }
