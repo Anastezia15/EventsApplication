@@ -14,7 +14,7 @@ const SubscriptionsPage = () => {
     setSubEvents(getData);
   };
   useEffect(() => {
-    init()
+    init();
   }, []);
 
   return (
@@ -25,9 +25,10 @@ const SubscriptionsPage = () => {
       <div className="grid grid-cols-3 gap-4 pb-[25px]">
         {allSubs.map((value, index) => (
           <Event
+            sub
             key={index}
             creatorId={value.creatorId}
-            id={index}
+            id={value.id}
             title={value.title}
             imageUrl={value.imageUrl}
             description={value.description}

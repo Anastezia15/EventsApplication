@@ -23,10 +23,10 @@ const SubscriptionsPage = () => {
     <div className="flex h-full w-full flex-col  items-center justify-start gap-[25px]">
       <h1 className=" text-center text-[25px] dark:text-white">My Events</h1>
       <div className="grid grid-cols-3 gap-4 pb-[25px]">
-        {myEvents.map((value, index) => (
+        {myEvents.map((value) => (
           <Event
             creatorId={value.creatorId}
-            id={index}
+            id={value.id}
             title={value.title}
             imageUrl={value.imageUrl}
             description={value.description}

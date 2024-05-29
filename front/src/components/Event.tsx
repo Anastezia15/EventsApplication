@@ -1,6 +1,7 @@
 import { Button, Card } from "flowbite-react";
-import { useUserStore } from "../store/user.store";
-import { deleteRequest, patchRequest, postRequest } from "../api";
+import { IUser, useUserStore } from "../store/user.store";
+import { deleteRequest, getRequest, patchRequest, postRequest } from "../api";
+import { useEffect, useState } from "react";
 
 export interface IEvent {
   id: number;
@@ -16,6 +17,7 @@ export interface IEvent {
   };
   creatorId: string;
   my?: boolean;
+  sub?: boolean;
 }
 
 const Event = ({
@@ -29,24 +31,41 @@ const Event = ({
   time,
   creatorId,
   my,
+  sub,
 }: IEvent) => {
   const { user } = useUserStore();
+
+  const [subs, setSubs] = useState<IUser[]>([]);
   const handleClick = async () => {
     await postRequest({
-      url: `/users/subscribe/${creatorId}/${id + 1}`,
+      url: `/users/subscribe/${user.id}/${id}`,
     });
   };
   const deleteClick = async () => {
     await deleteRequest({
-      url: `/events/${id + 1}`,
+      url: `/events/${id}`,
     });
+    window.location.reload();
+
   };
 
   const unSubClick = async () => {
     await patchRequest({
-      url: `/events/unsubscribe/${id + 1}/${creatorId}`,
+      url: `/events/unsubscribe/${id}/${user.id}`,
     });
+    window.location.reload();
   };
+  const init = async () => {
+    if (my) {
+      const data = await getRequest({
+        url: `/events/subscribers/${id}`,
+      });
+      setSubs(data);
+    }
+  };
+  useEffect(() => {
+    init();
+  }, []);
   return (
     <Card>
       <div>
@@ -72,10 +91,18 @@ const Event = ({
         <h2 className="text-center text-[20px] dark:text-white">
           Category: {category.name}
         </h2>
+        {my && (
+          <h3 className="text-center text-[15px] dark:text-white">
+            Subscribers:{" "}
+            {subs.map((user) => (
+              <p>{user.username}</p>
+            ))}
+          </h3>
+        )}
       </div>
-      {my && <Button onClick={unSubClick}>Unsubscribe</Button>}
+      {sub && <Button onClick={unSubClick}>Unsubscribe</Button>}
       {my && <Button onClick={deleteClick}>Delete</Button>}
-      {user.role === "ROLE_USER" && !my && (
+      {user.role === "ROLE_USER" && !my && !sub && (
         <Button onClick={handleClick}>Subscribe</Button>
       )}
     </Card>
