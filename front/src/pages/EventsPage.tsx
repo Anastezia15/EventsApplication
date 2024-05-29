@@ -21,7 +21,7 @@ const EventsPage = () => {
           {allEvents.map((value, index) => (
             <Event
               creatorId={value.creatorId}
-              id={index}
+              id={value.id}
               title={value.title}
               imageUrl={value.imageUrl}
               description={value.description}
