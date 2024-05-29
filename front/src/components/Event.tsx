@@ -1,6 +1,6 @@
 import { Button, Card } from "flowbite-react";
 import { useUserStore } from "../store/user.store";
-import { deleteRequest, postRequest } from "../api";
+import { deleteRequest, patchRequest, postRequest } from "../api";
 
 export interface IEvent {
   id: number;
@@ -41,6 +41,12 @@ const Event = ({
       url: `/events/${id + 1}`,
     });
   };
+
+  const unSubClick = async () => {
+    await patchRequest({
+      url: `/events/unsubscribe/${id + 1}/${creatorId}`,
+    });
+  };
   return (
     <Card>
       <div>
@@ -67,8 +73,11 @@ const Event = ({
           Category: {category.name}
         </h2>
       </div>
+      {my && <Button onClick={unSubClick}>Unsubscribe</Button>}
       {my && <Button onClick={deleteClick}>Delete</Button>}
-      {user.role === "ROLE_USER" && <Button onClick={handleClick}>Subscribe</Button>}
+      {user.role === "ROLE_USER" && !my && (
+        <Button onClick={handleClick}>Subscribe</Button>
+      )}
     </Card>
   );
 };
